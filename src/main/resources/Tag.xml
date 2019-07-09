@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper 的 namespace 的值要等于 userdao 接口的地址（包名.接口名） -->
+
+<mapper namespace="com.iyunxiao.dao.Tagdao">
+    <resultMap id="tag" type="com.iyunxiao.domain.dto.Tag">
+        <id property="id" column="id"></id>
+        <result property="tagName" column="tag_name"></result>
+    </resultMap>
+    <select id="findTagById" resultMap="tag">
+        
+        select * from tag where id = #{id}
+    </select>
+
+</mapper>

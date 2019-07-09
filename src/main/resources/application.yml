@@ -1,0 +1,12 @@
+
+tokenname: token
+secret: mrqasim
+
+
+
+spring:
+  datasource:
+    username: account
+    password: account
+    url: jdbc:mysql://47.99.244.227:3306/account?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimeZsone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver

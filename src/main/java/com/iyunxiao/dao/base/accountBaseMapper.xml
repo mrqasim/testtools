@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="packageMapper.base.accountBaseMapper">
+
+
+    <insert id="insertaccount"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `account`
+        (
+        <trim suffixOverrides=",">
+                    <if test="id!=null">
+                        `id`,
+                    </if>
+                    <if test="gmtCreate!=null">
+                        `gmt_create`,
+                    </if>
+                    <if test="gmtModified!=null">
+                        `gmt_modified`,
+                    </if>
+                    <if test="testAccount!=null">
+                        `test_account`,
+                    </if>
+                    <if test="testPassword!=null">
+                        `test_password`,
+                    </if>
+                    <if test="projectId!=null">
+                        `project_id`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="id!=null">
+                    #{id},
+                </if>
+                <if test="gmtCreate!=null">
+                    #{gmtCreate},
+                </if>
+                <if test="gmtModified!=null">
+                    #{gmtModified},
+                </if>
+                <if test="testAccount!=null">
+                    #{testAccount},
+                </if>
+                <if test="testPassword!=null">
+                    #{testPassword},
+                </if>
+                <if test="projectId!=null">
+                    #{projectId},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateaccount">
+        UPDATE `account`
+        SET
+        <trim suffixOverrides=",">
+            <if test="gmtCreate != null">
+                `gmt_create` = #{gmtCreate},
+            </if>
+            <if test="gmtModified != null">
+                `gmt_modified` = #{gmtModified},
+            </if>
+            <if test="testAccount != null and testAccount!=''">
+                `test_account` = #{testAccount},
+            </if>
+            <if test="testPassword != null and testPassword!=''">
+                `test_password` = #{testPassword},
+            </if>
+            <if test="projectId != null">
+                `project_id` = #{projectId},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `id` = #{id} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `account`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.gmtCreate != null">
+            `gmt_create` = #{set.gmtCreate},
+        </if>
+        <if test="set.gmtModified != null">
+            `gmt_modified` = #{set.gmtModified},
+        </if>
+        <if test="set.testAccount != null and set.testAccount!=''">
+            `test_account` = #{set.testAccount},
+        </if>
+        <if test="set.testPassword != null and set.testPassword!=''">
+            `test_password` = #{set.testPassword},
+        </if>
+        <if test="set.projectId != null">
+            `project_id` = #{set.projectId},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.idList != null">
+                    `id` in
+                    <foreach collection="where.idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.idSt !=null">
+                `id` >= #{where.idSt} and
+            </if>
+            <if test="where.idEd!=null">
+                `id` &lt;= #{where.idEd} and
+            </if>
+                <if test="where.gmtCreateList != null">
+                    `gmt_create` in
+                    <foreach collection="where.gmtCreateList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.gmtCreateSt !=null">
+                `gmt_create` >= #{where.gmtCreateSt} and
+            </if>
+            <if test="where.gmtCreateEd!=null">
+                `gmt_create` &lt;= #{where.gmtCreateEd} and
+            </if>
+                <if test="where.gmtModifiedList != null">
+                    `gmt_modified` in
+                    <foreach collection="where.gmtModifiedList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.gmtModifiedSt !=null">
+                `gmt_modified` >= #{where.gmtModifiedSt} and
+            </if>
+            <if test="where.gmtModifiedEd!=null">
+                `gmt_modified` &lt;= #{where.gmtModifiedEd} and
+            </if>
+                <if test="where.testAccountList != null">
+                    `test_account` in
+                    <foreach collection="where.testAccountList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTestAccount!=null and where.fuzzyTestAccount.size()>0">
+                (
+                <foreach collection="where.fuzzyTestAccount"  separator="or" item="item">
+                    `Test_account` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTestAccount!=null and where.rightFuzzyTestAccount.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTestAccount"  separator="or" item="item">
+                    `Test_account` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.testPasswordList != null">
+                    `test_password` in
+                    <foreach collection="where.testPasswordList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTestPassword!=null and where.fuzzyTestPassword.size()>0">
+                (
+                <foreach collection="where.fuzzyTestPassword"  separator="or" item="item">
+                    `Test_password` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTestPassword!=null and where.rightFuzzyTestPassword.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTestPassword"  separator="or" item="item">
+                    `Test_password` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.projectIdList != null">
+                    `project_id` in
+                    <foreach collection="where.projectIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.projectIdSt !=null">
+                `project_id` >= #{where.projectIdSt} and
+            </if>
+            <if test="where.projectIdEd!=null">
+                `project_id` &lt;= #{where.projectIdEd} and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="packageModel.account" id="accountMap">
+        <result property="id" column="id"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="testAccount" column="test_account"/>
+        <result property="testPassword" column="test_password"/>
+        <result property="projectId" column="project_id"/>
+    </resultMap>
+
+
+    <select id="queryaccount" resultMap="accountMap">
+        select
+        <include refid="baseResult"></include>
+        from  `account`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="gmtCreate != null">
+                `gmt_create` = #{gmtCreate} and
+            </if>
+            <if test="gmtModified != null">
+                `gmt_modified` = #{gmtModified} and
+            </if>
+            <if test="testAccount != null and testAccount!=''">
+                `test_account` = #{testAccount} and
+            </if>
+            <if test="testPassword != null and testPassword!=''">
+                `test_password` = #{testPassword} and
+            </if>
+            <if test="projectId != null">
+                `project_id` = #{projectId} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.account$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="gmtCreateList != null">
+                    `gmt_create` in
+                    <foreach collection="gmtCreateList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="gmtCreateSt !=null">
+                    `gmt_create` >= #{gmtCreateSt} and
+                </if>
+                <if test="gmtCreateEd!=null">
+                    `gmt_create` &lt;= #{gmtCreateEd} and
+                </if>
+                <if test="gmtModifiedList != null">
+                    `gmt_modified` in
+                    <foreach collection="gmtModifiedList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="gmtModifiedSt !=null">
+                    `gmt_modified` >= #{gmtModifiedSt} and
+                </if>
+                <if test="gmtModifiedEd!=null">
+                    `gmt_modified` &lt;= #{gmtModifiedEd} and
+                </if>
+                <if test="testAccountList != null">
+                    `test_account` in
+                    <foreach collection="testAccountList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTestAccount!=null and fuzzyTestAccount.size()>0">
+                    (
+                    <foreach collection="fuzzyTestAccount"  separator="or" item="item">
+                        `Test_account` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTestAccount!=null and rightFuzzyTestAccount.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTestAccount"  separator="or" item="item">
+                        `Test_account` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="testPasswordList != null">
+                    `test_password` in
+                    <foreach collection="testPasswordList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTestPassword!=null and fuzzyTestPassword.size()>0">
+                    (
+                    <foreach collection="fuzzyTestPassword"  separator="or" item="item">
+                        `Test_password` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTestPassword!=null and rightFuzzyTestPassword.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTestPassword"  separator="or" item="item">
+                        `Test_password` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="projectIdList != null">
+                    `project_id` in
+                    <foreach collection="projectIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="projectIdSt !=null">
+                    `project_id` >= #{projectIdSt} and
+                </if>
+                <if test="projectIdEd!=null">
+                    `project_id` &lt;= #{projectIdEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryaccountLimit1" resultMap="accountMap">
+        select
+        <include refid="baseResult"></include>
+        from  `account`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="gmtCreate != null">
+                `gmt_create` = #{gmtCreate} and
+            </if>
+            <if test="gmtModified != null">
+                `gmt_modified` = #{gmtModified} and
+            </if>
+            <if test="testAccount != null and testAccount!=''">
+                `test_account` = #{testAccount} and
+            </if>
+            <if test="testPassword != null and testPassword!=''">
+                `test_password` = #{testPassword} and
+            </if>
+            <if test="projectId != null">
+                `project_id` = #{projectId} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.account$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                    <if test="gmtCreateList != null">
+                        `gmt_create` in
+                        <foreach collection="gmtCreateList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="gmtCreateSt !=null">
+                    `gmt_create` >= #{gmtCreateSt} and
+                </if>
+                <if test="gmtCreateEd!=null">
+                    `gmt_create` &lt;= #{gmtCreateEd} and
+                </if>
+                    <if test="gmtModifiedList != null">
+                        `gmt_modified` in
+                        <foreach collection="gmtModifiedList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="gmtModifiedSt !=null">
+                    `gmt_modified` >= #{gmtModifiedSt} and
+                </if>
+                <if test="gmtModifiedEd!=null">
+                    `gmt_modified` &lt;= #{gmtModifiedEd} and
+                </if>
+                    <if test="testAccountList != null">
+                        `test_account` in
+                        <foreach collection="testAccountList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTestAccount!=null and fuzzyTestAccount.size()>0">
+                    (
+                    <foreach collection="fuzzyTestAccount"  separator="or" item="item">
+                        `Test_account` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTestAccount!=null and rightFuzzyTestAccount.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTestAccount"  separator="or" item="item">
+                        `Test_account` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="testPasswordList != null">
+                        `test_password` in
+                        <foreach collection="testPasswordList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTestPassword!=null and fuzzyTestPassword.size()>0">
+                    (
+                    <foreach collection="fuzzyTestPassword"  separator="or" item="item">
+                        `Test_password` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTestPassword!=null and rightFuzzyTestPassword.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTestPassword"  separator="or" item="item">
+                        `Test_password` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="projectIdList != null">
+                        `project_id` in
+                        <foreach collection="projectIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="projectIdSt !=null">
+                    `project_id` >= #{projectIdSt} and
+                </if>
+                <if test="projectIdEd!=null">
+                    `project_id` &lt;= #{projectIdEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `gmt_create`,
+        `gmt_modified`,
+        `test_account`,
+        `test_password`,
+        `project_id`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof packageModel.account$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.id==true">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.gmtCreate==true">
+                        `gmt_create`,
+                    </if>
+                    <if test="fetchFields.fetchFields.gmtModified==true">
+                        `gmt_modified`,
+                    </if>
+                    <if test="fetchFields.fetchFields.testAccount==true">
+                        `test_account`,
+                    </if>
+                    <if test="fetchFields.fetchFields.testPassword==true">
+                        `test_password`,
+                    </if>
+                    <if test="fetchFields.fetchFields.projectId==true">
+                        `project_id`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.id==null">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.gmtCreate==null">
+                        `gmt_create`,
+                    </if>
+                    <if test="fetchFields.excludeFields.gmtModified==null">
+                        `gmt_modified`,
+                    </if>
+                    <if test="fetchFields.excludeFields.testAccount==null">
+                        `test_account`,
+                    </if>
+                    <if test="fetchFields.excludeFields.testPassword==null">
+                        `test_password`,
+                    </if>
+                    <if test="fetchFields.excludeFields.projectId==null">
+                        `project_id`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof packageModel.account$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>
